@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">WeatherApp</string>
+    <string name="sideBarOpen">Sidebar open</string>
+    <string name="sideBarClose">Sidebar closed</string>
+    <string name="change_locaten_title">Change location</string>
+    <string name="phone_hint">Phone number</string>
+    <string name="first_name_hint">First name</string>
+</resources>
