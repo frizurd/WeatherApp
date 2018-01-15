@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {;
     @BindView(R.id.actMain_ivHumidity)            ImageView humidityImage;
     @BindView(R.id.actMain_ivTemperature)         ImageView temperatureImage;
     @BindView(R.id.actMain_ivWind)                ImageView windImage;
-
+    
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle sideBarToggle;
 

@@ -1,9 +1,6 @@
 package com.frizkykramer.weatherapp.view.activity;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,24 +9,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.frizkykramer.weatherapp.R;
 import com.frizkykramer.weatherapp.application.SmsListener;
 import com.frizkykramer.weatherapp.application.SmsReceiver;
+import com.frizkykramer.weatherapp.libs.libs.JoSharedPreference;
 import com.frizkykramer.weatherapp.libs.libs.Restrofit.RetrofitBuilderOKHome;
 import com.frizkykramer.weatherapp.libs.libs.Utility;
 import com.frizkykramer.weatherapp.model.AccountModel;
 import com.frizkykramer.weatherapp.restclient.ApiInterface;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -52,8 +45,28 @@ public class SignupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
         ButterKnife.bind(this);
         adaptDataAndViews();
+        if (isRegistered()) {
+            ;
+        }
+    }
+
+    private boolean isRegistered() {
+        if (JoSharedPreference.with(this).get("isRegistered") != null) {
+            boolean isTrue = JoSharedPreference.with(this).get("isRegistered");
+
+            if (isTrue) {
+                Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+
+                return true;
+            }
+        }
+        return false;
     }
 
     private void adaptDataAndViews() {
@@ -91,6 +104,8 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (isPhoneVerified) {
+                    JoSharedPreference.with(SignupActivity.this).push("isRegistered", true);
+
                     Intent intent = new Intent(SignupActivity.this, ViewpagerActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
@@ -178,5 +193,4 @@ public class SignupActivity extends AppCompatActivity {
         }
         responseText.setText(response);
     }
-
 }
