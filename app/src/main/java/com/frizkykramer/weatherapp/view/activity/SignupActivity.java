@@ -54,12 +54,11 @@ public class SignupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+        ButterKnife.bind(this);
         adaptDataAndViews();
     }
 
     private void adaptDataAndViews() {
-        ButterKnife.bind(this);
-
         SmsReceiver.bindListener(new SmsListener() {
             @Override
             public void messageReceived(String messageText) {
@@ -77,15 +76,11 @@ public class SignupActivity extends AppCompatActivity {
 
                 int nameLength = firstName.length();
 
-                if(nameLength<4) {
+                if(nameLength<4 && !TextUtils.isEmpty(editName.toString())) {
                     editName.setError("Your name has to be more than 4 characters.");
                 } else {
-                    if (isValidPhone(phoneNumber)) {
-                        if (!TextUtils.isEmpty(editPhone.toString()) && !TextUtils.isEmpty(phoneNumber)) {
-                            sendPost(phoneNumber);
-                        } else {
-                            editName.setError("Please enter your first name.");
-                        }
+                    if (isValidPhone(phoneNumber) && !TextUtils.isEmpty(editPhone.toString())) {
+                        sendPost(phoneNumber);
                     } else {
                         editPhone.setError("Please enter a correct phone number.");
                     }
