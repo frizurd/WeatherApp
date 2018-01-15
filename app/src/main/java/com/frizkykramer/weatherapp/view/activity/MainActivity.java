@@ -1,6 +1,5 @@
 package com.frizkykramer.weatherapp.view.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -10,28 +9,20 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.frizkykramer.weatherapp.R;
-import com.frizkykramer.weatherapp.environments.Variables;
-import com.frizkykramer.weatherapp.libs.restrofit.RetrofitBuilder;
+import com.frizkykramer.weatherapp.libs.libs.Restrofit.RetrofitBuilder;
 import com.frizkykramer.weatherapp.model.WeatherModel;
 import com.frizkykramer.weatherapp.restclient.ApiInterface;
 import com.squareup.picasso.Picasso;
-import java.io.IOException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {;
 
@@ -92,7 +83,7 @@ public class MainActivity extends AppCompatActivity {;
 
     public void createWeatherApi() {
 
-        ApiInterface apiService = RetrofitBuilder.getInstance().getRetrofit().create(ApiInterface.class);
+        ApiInterface apiService = RetrofitBuilder.getRetrofit().create(ApiInterface.class);
 
         String city = "London,uk";
 

@@ -5,4 +5,7 @@
     <string name="change_locaten_title">Change location</string>
     <string name="phone_hint">Phone number</string>
     <string name="first_name_hint">First name</string>
+    <string name="first">hello world</string>
+    <string name="second">Weather app</string>
+    <string name="third">Lorem</string>
 </resources>

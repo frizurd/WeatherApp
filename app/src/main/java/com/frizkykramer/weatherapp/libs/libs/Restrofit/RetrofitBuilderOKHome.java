@@ -1,20 +1,14 @@
-package com.frizkykramer.weatherapp.libs.restrofit;
+package com.frizkykramer.weatherapp.libs.libs.Restrofit;
 
 import com.frizkykramer.weatherapp.environments.Variables;
 
-import java.io.IOException;
-
-import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitBuilderOKHome {
 
     private static RetrofitBuilderOKHome instance = null;
-    private Retrofit retrofit;
+    private static Retrofit retrofit;
 
     public RetrofitBuilderOKHome() {
 
@@ -29,8 +23,7 @@ public class RetrofitBuilderOKHome {
         }
         return instance;
     }
-
-    public Retrofit getRetrofit() {
+    public static final Retrofit getRetrofit() {
         return retrofit;
     }
 }

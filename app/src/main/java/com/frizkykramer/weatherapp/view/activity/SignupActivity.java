@@ -1,29 +1,27 @@
 package com.frizkykramer.weatherapp.view.activity;
 
-import android.accounts.Account;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Dialog;
-import android.content.DialogInterface;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.frizkykramer.weatherapp.R;
 import com.frizkykramer.weatherapp.application.SmsListener;
 import com.frizkykramer.weatherapp.application.SmsReceiver;
-import com.frizkykramer.weatherapp.libs.restrofit.RetrofitBuilder;
-import com.frizkykramer.weatherapp.libs.restrofit.RetrofitBuilderOKHome;
+import com.frizkykramer.weatherapp.libs.libs.Restrofit.RetrofitBuilderOKHome;
+import com.frizkykramer.weatherapp.libs.libs.Utility;
 import com.frizkykramer.weatherapp.model.AccountModel;
-import com.frizkykramer.weatherapp.model.WeatherModel;
 import com.frizkykramer.weatherapp.restclient.ApiInterface;
 
 import java.util.regex.Matcher;
@@ -31,6 +29,7 @@ import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,11 +39,10 @@ public class SignupActivity extends AppCompatActivity {
 
     @BindView(R.id.actSignUp_btnCheckPhone)     Button buttonCheckPhone;
     @BindView(R.id.actSignUp_btnSignUp)         Button buttonSignUp;
-
     @BindView(R.id.actSignUp_etName)            EditText editName;
     @BindView(R.id.actSignUp_etPhone)           EditText editPhone;
-
     @BindView(R.id.ActSignUp_tvResponse)        TextView responseText;
+    @BindView(R.id.progressBarHolder)           View progressOverlay;
 
     private String phoneNumber;
     private String firstName;
@@ -79,7 +77,7 @@ public class SignupActivity extends AppCompatActivity {
                 if(nameLength<4 && !TextUtils.isEmpty(editName.toString())) {
                     editName.setError("Your name has to be more than 4 characters.");
                 } else {
-                    if (isValidPhone(phoneNumber) && !TextUtils.isEmpty(editPhone.toString())) {
+                    if (Utility.isValidPhone(phoneNumber) && !TextUtils.isEmpty(editPhone.toString())) {
                         sendPost(phoneNumber);
                     } else {
                         editPhone.setError("Please enter a correct phone number.");
@@ -93,7 +91,7 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (isPhoneVerified) {
-                    Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+                    Intent intent = new Intent(SignupActivity.this, ViewpagerActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
@@ -104,6 +102,8 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void sendPost(final String phone) {
+
+        Utility.animateView(progressOverlay, View.VISIBLE, 0.4f, 200);
 
         ApiInterface apiService = RetrofitBuilderOKHome.getInstance().getRetrofit().create(ApiInterface.class);
 
@@ -130,6 +130,8 @@ public class SignupActivity extends AppCompatActivity {
                 Log.e("OKHOME PHONE API", "Unable to submit post to API.");
             }
         });
+
+        Utility.animateView(progressOverlay, View.GONE, 0, 200);
     }
 
     private void createPhoneVerificationDialog() {
@@ -176,21 +178,5 @@ public class SignupActivity extends AppCompatActivity {
         }
         responseText.setText(response);
     }
-
-    public static boolean isValidPhone(String phone)
-    {
-        String expression = "^([0-9\\+]|\\(\\d{1,3}\\))[0-9\\-\\. ]{3,15}$";
-        CharSequence inputString = phone;
-        Pattern pattern = Pattern.compile(expression);
-        Matcher matcher = pattern.matcher(inputString);
-        if (matcher.matches())
-        {
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
 
 }

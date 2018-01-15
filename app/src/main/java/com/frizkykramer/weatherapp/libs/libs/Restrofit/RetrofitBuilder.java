@@ -1,4 +1,4 @@
-package com.frizkykramer.weatherapp.libs.restrofit;
+package com.frizkykramer.weatherapp.libs.libs.Restrofit;
 
 import com.frizkykramer.weatherapp.environments.Variables;
 import java.io.IOException;
@@ -14,8 +14,8 @@ public class RetrofitBuilder {
     private final String apiKey = "cbb9e8a348d065509f07a55572050115";
 
     private static RetrofitBuilder instance = null;
-    private Retrofit retrofit;
-    private OkHttpClient client;
+    private static Retrofit retrofit;
+    private static OkHttpClient client;
 
     public RetrofitBuilder() {
 
@@ -43,14 +43,14 @@ public class RetrofitBuilder {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
-    public static RetrofitBuilder getInstance() {
+    public static final RetrofitBuilder getInstance() {
         if (instance == null) {
             instance = new RetrofitBuilder();
         }
         return instance;
     }
 
-    public Retrofit getRetrofit() {
-        return retrofit;
+    public static final Retrofit getRetrofit() {
+            return getInstance().retrofit;
     }
 }
