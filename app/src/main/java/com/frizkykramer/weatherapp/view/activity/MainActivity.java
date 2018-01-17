@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {;
     @BindView(R.id.actMain_ivHumidity)            ImageView humidityImage;
     @BindView(R.id.actMain_ivTemperature)         ImageView temperatureImage;
     @BindView(R.id.actMain_ivWind)                ImageView windImage;
-    
+
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle sideBarToggle;
 
@@ -67,18 +68,6 @@ public class MainActivity extends AppCompatActivity {;
         Picasso.with(this).load(R.drawable.raindrops).into(humidityImage);
         Picasso.with(this).load(R.drawable.temperature2).into(temperatureImage);
         Picasso.with(this).load(R.drawable.wind).into(windImage);
-
-        cityName.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(MainActivity.this, LocationActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
-            }
-        });
     }
 
     public void createWeatherApi() {
@@ -132,6 +121,15 @@ public class MainActivity extends AppCompatActivity {;
                 break;
         }
 
+    }
+
+
+    @OnClick(R.id.actMain_tvTitle)
+    public void changeCity() {
+        Intent intent = new Intent(MainActivity.this, LocationActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
     @Override
